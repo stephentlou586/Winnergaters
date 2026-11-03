@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServedYouAre EPIC V2 - ONE FILE</title>
+<style>
+*{box-sizing:border-box;font-family:Inter,Arial,sans-serif}body{margin:0;background:#fafaf7;color:#111}
+header{padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:20}
+.logo{font-weight:900;font-size:22px}.logo span{color:#f59e0b}
+.btn{background:#111;color:#fff;border:0;padding:9px 16px;border-radius:999px;font-weight:700;cursor:pointer;font-size:13px}
+.btn.light{background:#fff;color:#111;border:1px solid #111}.btn.full{width:100%;margin-top:8px}
+.btn.green{background:#16a34a}.btn.red{background:#dc2626}.btn.orange{background:#f59e0b;color:#111}.btn.blue{background:#2563eb}
+.tabs{max-width:1300px;margin:14px auto;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:700;font-size:13px}
+.tab.active{background:#111;color:#fff}
+.hero{padding:28px 20px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px;max-width:1300px;margin:auto}
+.hero h1{font-size:42px;line-height:.9;margin:8px 0;letter-spacing:-1.2px}
+.tag{background:#fff3c4;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.card{background:#fff;border:1px solid #eee;border-radius:18px;padding:16px}
+.filters{max-width:1300px;margin:8px auto;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap}
+.filters input,.filters select{padding:10px;border-radius:12px;border:1px solid #ddd;min-width:170px}
+.feed{max-width:1300px;margin:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.post{background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;position:relative;overflow:hidden}
+.post.featured{border:2px solid #f59e0b;box-shadow:0 4px 20px #fde68a}
+.post.epic{border:2px solid #111;box-shadow:0 6px 24px rgba(0,0,0,.15)}
+.head{display:flex;gap:10px;align-items:center}
+.avatar{width:44px;height:44px;border-radius:50%;background:#f59e0b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+.actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sbtn{padding:5px 10px;border-radius:999px;border:1px solid #ddd;background:#fff;font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;color:#111}
+.sbtn.primary{background:#111;color:#fff}
+.badge{padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.badge.pending{background:#fef3c7;color:#92400e}.badge.approved{background:#dcfce7;color:#166534}.badge.verified{background:#111;color:#f59e0b}.badge.pro{background:#f59e0b;color:#111}.badge.epic{background:#111;color:#fff}.badge.basic{background:#eee;color:#111}
+.adminRow{display:flex;justify-content:space-between;align-items:center;background:#fff8db;border:1px solid #fde68a;padding:10px;border-radius:12px;margin-bottom:8px;gap:10px}
+.reminderBanner{background:#fff3c4;border:1px solid #fde68a;padding:10px;border-radius:12px;margin-bottom:10px;font-size:12px;font-weight:600}
+.socialRow{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-top:6px;font-size:13px}
+.leader{max-width:1300px;margin:10px auto;padding:0 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.leaderCard{background:#111;color:#fff;border-radius:14px;padding:12px;font-size:12px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.leader{grid-template-columns:1fr}.hero h1{font-size:32px}}
+.hidden{display:none}
+.qr{width:100px;height:100px;background:#fff;padding:4px;border-radius:8px;border:1px solid #eee}
+.stars{color:#f59e0b;font-size:12px}
+</style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window.db=db; window.fs={ collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp };
+</script>
+</head><body>
+<header><div class="logo">SERVED<span>YOUARE</span> <small style="background:#f59e0b;color:#111;padding:2px 8px;border-radius:99px;font-size:10px;margin-left:6px">EPIC V2</small> <small id="liveCount" style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:99px;font-size:10px">LIVE</small></div><div><span id="userLabel" style="font-size:11px;color:#666"></span> <button class="btn light" onclick="logout()">Logout</button></div></header>
+<div class="tabs"><button class="tab active" id="tabMarket" onclick="showTab('market')">🔥 Marketplace</button><button class="tab" id="tabLead" onclick="showTab('leader')">🏆 Leaderboard</button><button class="tab" id="tabDash" onclick="showTab('dash')">My Dashboard</button><button class="tab hidden" id="tabAdmin" onclick="showTab('admin')">🔒 Admin</button></div>
+<div id="marketView">
+<section class="hero"><div><span class="tag">EPIC V2 - ONE CODE - ALL FEATURES</span><h1>You are the business.<br>Now you market itself.</h1><p style="font-size:13px">Shareable @username, QR for taxi/shop, Reviews ⭐, R99/R199/R399, Referral R10, Leaderboard, Auto WhatsApp Status image. Every profile brings 10 new visitors free.</p><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><span class="badge verified">✅ Verified</span><span class="badge pro">PRO R199</span><span class="badge epic">EPIC R399 Featured</span><span class="badge approved">LIVE DB</span></div></div>
+<div class="card"><h3 style="margin:0">Create Epic Profile</h3><small>R99 Basic / R199 Pro / R399 Epic</small>
+<input id="h_name" placeholder="Name / Company"><input id="h_username" placeholder="@username e.g. @ThandiM (no spaces)"><div class="grid2"><input id="h_title" placeholder="Worktitle"><select id="h_tier"><option value="basic">Basic R99 - 30d</option><option value="pro">Pro R199 - 30d + Top + Verified ✅</option><option value="epic">Epic R399 - 60d + Banner + Video + Top</option></select></div><select id="h_type"><option value="individual">Individual</option><option value="company">Company</option></select><textarea id="h_bio" placeholder="What you sell? Price? Location?"></textarea><input id="h_contact" placeholder="WhatsApp 079..."><input id="h_video" placeholder="YouTube Video Link (for Epic)">
+<div class="grid2"><input id="h_facebook" placeholder="Facebook Link"><input id="h_instagram" placeholder="Instagram"><input id="h_tiktok" placeholder="TikTok"><input id="h_youtube" placeholder="YouTube"><input id="h_linkedin" placeholder="LinkedIn"><input id="h_x" placeholder="X / Twitter"></div>
+<div class="grid2"><input id="h_referral" placeholder="Referral code (who invited you?)"><input id="h_payref" placeholder="Capitec Payment Ref"></div>
+<button class="btn full" onclick="quickCreate()">🚀 Launch My Epic Profile</button><small>Pay Capitec 0792411584 - Basic R99, Pro R199, Epic R399</small></div></section>
+<div class="filters"><input id="searchInput" placeholder="Search name, @username..." oninput="render()"><select id="filterType" onchange="render()"><option value="all">All Types</option><option value="individual">Individuals</option><option value="company">Companies</option></select><select id="filterTier" onchange="render()"><option value="all">All Tiers</option><option value="epic">Epic First</option><option value="pro">Pro</option><option value="basic">Basic</option></select><select id="filterLoc" onchange="render()"><option value="all">All Locations</option><option value="Mbombela">Mbombela</option><option value="Nelspruit">Nelspruit</option><option value="White River">White River</option><option value="Hazyview">Hazyview</option></select></div>
+<section id="feed" class="feed"></section>
+</div>
+<div id="leaderView" class="hidden">
+<div class="leader"><div class="leaderCard"><h3>🏆 Top 10 Most Viewed</h3><div id="leaderViews"></div></div><div class="leaderCard" style="background:#f59e0b;color:#111"><h3>⭐ Top Rated</h3><div id="leaderRated"></div></div><div class="leaderCard" style="background:#fff;color:#111;border:1px solid #ddd"><h3>🤝 Top Referrers</h3><div id="leaderRef"></div></div></div>
+</div>
+<div id="dash
